@@ -17,9 +17,14 @@ object Main extends App {
   implicit val ec = system.dispatcher
   implicit val materializer = ActorMaterializer()
   val binding: Future[ServerBinding] = Http().bindAndHandle(new Api().rout, interface, port)
+
+  val log = Logging(system.eventStream, "Main")
+
   binding.onComplete {
-    case Success(_) => {}
-    case Failure(_) => {}
+    case Success(_) =>
+      log.info("success")
+    case Failure(_) =>
+      log.error("failure")
   }
 }
 
