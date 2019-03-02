@@ -3,7 +3,7 @@ package sample.signboard
 import akka.actor.{Actor, ActorRef, Props}
 
 object ColumnActor {
-  def props(receiver: ActorRef) = Props(new ColumnActor(receiver))
+  def props(name: String) = Props(new ColumnActor(name))
 
   case object GetCards
 
@@ -11,7 +11,7 @@ object ColumnActor {
 
 }
 
-class ColumnActor(receiver: ActorRef) extends Actor {
+class ColumnActor(name: String) extends Actor {
 
   import ColumnActor._
 
@@ -19,6 +19,6 @@ class ColumnActor(receiver: ActorRef) extends Actor {
 
   override def receive: Receive = {
     case AddCard(cardName) => cards = cards :+ cardName
-    case GetCards => receiver ! cards
+    case GetCards => sender() ! cards
   }
 }
