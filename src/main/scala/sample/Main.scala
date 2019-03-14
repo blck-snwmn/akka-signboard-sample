@@ -36,6 +36,13 @@ class Api {
           complete("hello akka")
         }
       }
+    } ~
+      pathPrefix("greeting" / Segment) { name =>
+        pathEndOrSingleSlash {
+          get {
+            complete(OK, s"hello akka $name")
+          }
+        }
     }
 }
 
